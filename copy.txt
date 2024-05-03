@@ -1,0 +1,1 @@
+./app/flutter-gpio/update.sh

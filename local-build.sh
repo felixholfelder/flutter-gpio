@@ -7,13 +7,6 @@ host=secondpie
 
 conn=$usr@$host
 
-#./pscp -pw "$pass" ./ $conn:/home/$usr/flutter-gpio
+./pscp -pw "$pass" -r ./ $conn:/home/$usr/app/flutter-gpio
 
-ssh $conn << EOF
-  ls some_folder;
-  ./someaction.sh 'some params'
-  pwd
-  ./some_other_action 'other params'
-EOF
-
-read test
+putty -ssh $conn -pw "$pass" -m "copy.txt"
