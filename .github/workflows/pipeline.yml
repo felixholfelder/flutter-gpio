@@ -31,12 +31,8 @@ jobs:
         run: flutter config --enable-linux-desktop
 
       - name: Build artifact
-        uses: uraimo/run-on-arch-action@v2
         id: build
-        with:
-          arch: armv7
-          distro: ubuntu22.04
-          run: flutter build linux --release --target-platform ${{ env.TARGET }}
+        run: docker build -t felixholfelder/flutter_gpio .
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master
