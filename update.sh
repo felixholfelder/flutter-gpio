@@ -9,6 +9,7 @@ echo "Neueste Version: $newestRelease"
 currRelease=$(git rev-parse --abbrev-ref HEAD)
 echo "Aktuelle Version: $currRelease"
 
+#Check if version is current
 if [ -"$newestRelease" != "$currRelease" ]; then
     rm -rf $appName
     git clone https://github.com/felixholfelder/$appName.git --branch "$newestRelease"
@@ -16,6 +17,5 @@ if [ -"$newestRelease" != "$currRelease" ]; then
     flutter build linux --release --target-platform $target
 fi
 
+#Start app
 ./$appName/build/linux/$target/release/bundle/$appName
-
-read test
