@@ -33,17 +33,14 @@ jobs:
         id: build
         run: flutter build linux --release --target-platform ${{ env.PLATFORM }}
 
-      - name: Archive Release
-        uses: thedoctor0/zip-release@master
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
         with:
-          type: 'zip'
-          filename: flutter-gpio-${{github.ref_name}}-linux.zip
-          directory: ./
-
-      - name: Linux Release
-        uses: softprops/action-gh-release@v1
-        #if: startsWith(github.ref, 'refs/tags/')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: ./flutter-gpio-${{github.ref_name}}-linux.zip
+          name: artifacts
+          path: |
+            ./
+            !android
+            !windows
+            !ios
+            !macos
+            !web
