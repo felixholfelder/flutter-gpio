@@ -3,8 +3,7 @@ name: Flutter CI
 on: push
 
 env:
-  TARGET: linux-arm64
-  PLATFORM: arm64
+  PLATFORM: linux-x64
   APP_NAME: darts-automation
 
 jobs:
@@ -32,7 +31,7 @@ jobs:
 
       - name: Build artifact
         id: build
-        run: flutter build linux --release --target-platform ${{ env.TARGET }}
+        run: flutter build linux --release --target-platform ${{ env.PLATFORM }}
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master
