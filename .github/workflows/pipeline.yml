@@ -3,6 +3,7 @@ name: Flutter CI
 on: push
 
 env:
+  TARGET: linux-arm64
   PLATFORM: arm64
   APP_NAME: darts-automation
 
@@ -30,7 +31,7 @@ jobs:
         run: flutter config --enable-linux-desktop
 
       - name: Build artifacts
-        run: flutter build linux --release --target-platform ${{ env.PLATFORM }}
+        run: flutter build linux --release --target-platform ${{ env.TARGET }}
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master
@@ -38,6 +39,7 @@ jobs:
           type: 'zip'
           filename: flutter-gpio-${{github.ref_name}}-linux.zip
           directory: build/linux/${{ env.PLATFORM }}/release/bundle
+
       - name: Linux Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
