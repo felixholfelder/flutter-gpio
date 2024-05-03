@@ -30,13 +30,13 @@ jobs:
       - name: Enable linux build
         run: flutter config --enable-linux-desktop
 
-      - uses: uraimo/run-on-arch-action@v2
-        name: Build artifact
+      - name: Build artifact
+        uses: uraimo/run-on-arch-action@v2
         id: build
         with:
           arch: aarch64
           distro: ubuntu22.04
-        run: flutter build linux --release --target-platform ${{ env.TARGET }}
+          run: flutter build linux --release --target-platform ${{ env.TARGET }}
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master
