@@ -32,14 +32,14 @@ jobs:
 
       - name: Build artifact
         id: build
-        run: docker build -t felixholfelder/flutter_gpio .
+        run: flutter build linux --release --target-platform ${{ env.TARGET }}
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: flutter-gpio-${{github.ref_name}}-linux.zip
-          directory: build/linux/${{ env.PLATFORM }}/release/bundle
+          directory: ./
 
       - name: Linux Release
         uses: softprops/action-gh-release@v1
@@ -47,4 +47,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: build/linux/${{ env.PLATFORM }}/release/bundle/flutter-gpio-${{github.ref_name}}-linux.zip
+          files: ./flutter-gpio-${{github.ref_name}}-linux.zip
