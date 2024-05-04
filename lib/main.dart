@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextButton(onPressed: () => toggleLed(),
-                child: Text("${_ledState ? "Aus" : "An"}"))
+                child: Text(_ledState ? "Aus" : "An"))
           ],
         ),
       ),
@@ -66,11 +66,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   toggleLed() {
     print("toggle");
-    print(_led);
-    setState(() {
-      _ledState = !_ledState;
-      _led.value = _ledState;
-    });
+    try {
+      setState(() {
+        _ledState = !_ledState;
+        _led.value = _ledState;
+      });
+    } catch (_) {
+      print("Initialization not finished");
+    }
   }
 
   initGpio() async {
