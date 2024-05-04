@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:rpi_gpio/gpio.dart';
 import 'package:rpi_gpio/rpi_gpio.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  Gpio gpio = await initialize_RpiGpio();
+  runApp(const MyApp(gpio: gpio));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.gpio});
+
+  final Gpio gpio;
 
   // This widget is the root of your application.
   @override
@@ -18,15 +21,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'RetroI'),
+      home: const MyHomePage(gpio),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.gpio});
 
-  final String title;
+  final Gpio gpio;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -34,11 +37,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _ledState = false;
-  late Gpio _gpio;
   late GpioOutput _led;
 
   @override
   void initState() {
+    super.initState();
     initGpio();
   }
 
@@ -50,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
             .of(context)
             .colorScheme
             .inversePrimary,
-        title: Text(widget.title),
+        title: const Text("Retro.I"),
       ),
       body: Center(
         child: Column(
@@ -71,18 +74,15 @@ class _MyHomePageState extends State<MyHomePage> {
         _ledState = !_ledState;
         _led.value = _ledState;
       });
-    } catch (_) {
+    } catch (e) {
       print("Initialization not finished");
+      print(e);
     }
   }
 
-  initGpio() async {
-    _gpio = await initialize_RpiGpio();
-    setState(() => _gpio);
-
+  initGpio() {
     setState(() {
-      _led = _gpio.output(14);
-      _led.value = false;
+      _led = widget.gpio.output(14)..value = false;
     });
     print("Initialization finished!");
   }
