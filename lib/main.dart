@@ -1,8 +1,5 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-
 import 'package:dart_periphery/dart_periphery.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +35,14 @@ class _MyHomePageState extends State<MyHomePage> {
   GPIO soundControl = GPIO(2, GPIOdirection.gpioDirIn);
 
   @override
+  void initState() {
+    super.initState();
+
+    GPIOreadEvent event = soundControl.readEvent();
+    print(event.edge.name);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Flexible(
       fit: FlexFit.tight,
@@ -66,8 +71,5 @@ class _MyHomePageState extends State<MyHomePage> {
       _ledState = !_ledState;
       gpio.write(_ledState);
     });
-
-    GPIOreadEvent event = soundControl.readEvent();
-    print(event.edge);
   }
 }
