@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() => _gpio);
 
     setState(() {
-      _led = _gpio.output(14);
+      _led = _gpio.output(2);
     });
   }
 }

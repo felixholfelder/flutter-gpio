@@ -1,1 +1,3 @@
-./app/flutter-gpio/update.sh
+cd /home/pi/app/debug
+/snap/bin/flutter build linux --release --target-platform linux-arm64
+./build/linux/arm64/release/bundle/flutter_gpio
