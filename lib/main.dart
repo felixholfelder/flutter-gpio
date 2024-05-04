@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
+    print("INIT");
     GPIOreadEvent event = soundControl.readEvent();
     print(event.edge.name);
   }
