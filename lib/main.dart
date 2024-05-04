@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:rpi_gpio/gpio.dart';
 import 'package:rpi_gpio/rpi_gpio.dart';
 
-void main() async {
-  Gpio gpio = await initialize_RpiGpio();
-  runApp(const MyApp(gpio: gpio));
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.gpio});
-
-  final Gpio gpio;
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -21,15 +18,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const MyHomePage(gpio),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.gpio});
-
-  final Gpio gpio;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -37,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _ledState = false;
+  late Gpio _gpio;
   late GpioOutput _led;
 
   @override
@@ -80,9 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  initGpio() {
+  initGpio() async {
+    _gpio = await initialize_RpiGpio();
     setState(() {
-      _led = widget.gpio.output(14)..value = false;
+      _gpio;
+      _led = _gpio.output(14)..value = false;
     });
     print("Initialization finished!");
   }
