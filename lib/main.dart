@@ -35,22 +35,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool _ledState = false;
   GPIO gpio = GPIO(14, GPIOdirection.gpioDirOut);
+  GPIO soundControl = GPIO(2, GPIOdirection.gpioDirIn);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Retro.I"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextButton(
-                onPressed: () => toggleLed(),
-                child: Text(_ledState ? "Aus" : "An"))
-          ],
+    return Flexible(
+      fit: FlexFit.tight,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text("Retro.I"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                  onPressed: () => toggleLed(),
+                  child: Text(_ledState ? "Aus" : "An"))
+            ],
+          ),
         ),
       ),
     );
@@ -62,5 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
       _ledState = !_ledState;
       gpio.write(_ledState);
     });
+
+    GPIOreadEvent event = soundControl.readEvent();
+    print(event.edge);
   }
 }
