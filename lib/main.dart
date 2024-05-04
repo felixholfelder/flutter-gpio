@@ -34,30 +34,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _ledState = false;
-  // late Gpio _gpio;
-  // late GpioOutput _led;
-
-  @override
-  void initState() {
-    super.initState();
-    initGpio();
-  }
+  GPIO gpio = GPIO(14, GPIOdirection.gpioDirOut);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Retro.I"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextButton(onPressed: () => toggleLed(),
+            TextButton(
+                onPressed: () => toggleLed(),
                 child: Text(_ledState ? "Aus" : "An"))
           ],
         ),
@@ -66,48 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   toggleLed() {
-    // print("toggle");
-    // try {
-    //   setState(() {
-    //     _ledState = !_ledState;
-    //     _led.value = _ledState;
-    //   });
-    // } catch (e) {
-    //   print("Initialization not finished");
-    //   print(e);
-    // }
-  }
-
-  initGpio() async {
-    // _gpio = await initialize_RpiGpio();
-    // setState(() {
-    //   _gpio;
-    //   _led = _gpio.output(14)..value = false;
-    // });
-    // print("Initialization finished!");
-
-
-    var config = GPIOconfig.defaultValues();
-    config.direction = GPIOdirection.gpioDirOut;
-    print('Native c-periphery Version :  ${getCperipheryVersion()}');
-    print('GPIO test');
-    var gpio = GPIO(14, GPIOdirection.gpioDirOut);
-
-    print('GPIO info: ${gpio.getGPIOinfo()}');
-
-    print('GPIO native file handle: ${gpio.getGPIOfd()}');
-    print('GPIO chip name: ${gpio.getGPIOchipName()}');
-    print('GPIO chip label: ${gpio.getGPIOchipLabel()}');
-    print('GPIO chip name: ${gpio.getGPIOchipName()}');
-    print('CPIO chip label: ${gpio.getGPIOchipLabel()}');
-
-    for (var i = 0; i < 10; ++i) {
-      gpio.write(true);
-      sleep(Duration(milliseconds: 200));
-      gpio.write(false);
-      sleep(Duration(milliseconds: 200));
-    }
-
-    gpio.dispose();
+    print("toggle");
+    setState(() {
+      _ledState = !_ledState;
+      gpio.write(_ledState);
+    });
   }
 }
