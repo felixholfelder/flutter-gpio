@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool _ledState = false;
   GPIO gpio = GPIO(14, GPIOdirection.gpioDirOut);
-  GPIO soundControl = GPIO(2, GPIOdirection.gpioDirIn);
+  GPIO soundControl = GPIO(15, GPIOdirection.gpioDirIn);
 
   @override
   void initState() {
