@@ -82,6 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _led = _gpio.output(14);
+      _led.value = false;
     });
+    print("Initialization finished!");
   }
 }
